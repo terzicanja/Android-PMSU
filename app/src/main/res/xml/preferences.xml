@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Sortiranje"
+        android:key="sync_settings">
+
+        <ListPreference
+            android:dialogTitle="Sortiraj vesti"
+            android:entries="@array/pref_sort_entries"
+            android:entryValues="@array/pref_sort_values"
+            android:title="Sortiraj vesti"
+            android:defaultValue="date"
+            android:summary="%s"
+            android:key="pref_sortNews"
+            />
+
+        <ListPreference
+            android:dialogTitle="Sortiraj komentare"
+            android:entries="@array/pref_sort_entries"
+            android:entryValues="@array/pref_sort_values"
+            android:title="Sortiraj komentare"
+            android:defaultValue="date"
+            android:summary="%s"
+            android:key="pref_sortComments"
+            />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_sync"
+            android:summary="@string/pref_sync_summ"
+            android:title="@string/pref_sync_title" />
+
+        <ListPreference
+            android:dependency="@string/pref_sync"
+            android:dialogTitle="@string/pref_syncConnectionType"
+            android:entries="@array/pref_syncConnectionTypes_entries"
+            android:entryValues="@array/pref_syncConnectionTypes_values"
+            android:key="@string/pref_sync_list"
+            android:title="@string/pref_syncConnectionType"
+            android:summary="%s"
+            android:defaultValue="1"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
