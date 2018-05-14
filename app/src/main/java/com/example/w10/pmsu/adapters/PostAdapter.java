@@ -15,12 +15,13 @@ import com.example.w10.pmsu.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Post;
 
 public class PostAdapter extends ArrayAdapter<Post> {
 
-    public PostAdapter(Context context, ArrayList<Post> posts){
+    public PostAdapter(Context context, List<Post> posts){
         super(context, 0, posts);
     }
 
