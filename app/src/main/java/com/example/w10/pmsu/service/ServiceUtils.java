@@ -17,6 +17,7 @@ public class ServiceUtils {
 
     public static final String SERVICE_API_PATH = "http://192.168.0.13:8080/api/";
     public static final String POSTS = "posts";
+    public static final String COMMENTS = "comments";
     public static final String LOGIN = "users/{username}";
 
     public static OkHttpClient test(){
@@ -44,6 +45,7 @@ public class ServiceUtils {
 
 
     public static PostService postService = retrofit.create(PostService.class);
+    public static CommentService commentService = retrofit.create(CommentService.class);
     public static UserService userService = retrofit.create(UserService.class);
 
 

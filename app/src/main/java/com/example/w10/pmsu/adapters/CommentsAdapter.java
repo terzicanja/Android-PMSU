@@ -11,12 +11,13 @@ import com.example.w10.pmsu.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Comment;
 
 public class CommentsAdapter extends ArrayAdapter<Comment> {
 
-    public CommentsAdapter(Context context, ArrayList<Comment> comments){
+    public CommentsAdapter(Context context, List<Comment> comments){
         super(context, 0, comments);
     }
 

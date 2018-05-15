@@ -377,4 +377,13 @@ public class PostsActivity extends AppCompatActivity {
         Intent i = new Intent(this, SettingsActivity.class);
         startActivity(i);
     }
+
+    public void btnLogout(View view){
+        sharedPreferences = getSharedPreferences("Login", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+    }
 }

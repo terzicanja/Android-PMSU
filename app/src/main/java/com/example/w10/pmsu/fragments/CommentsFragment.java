@@ -12,14 +12,20 @@ import android.widget.ListView;
 
 import com.example.w10.pmsu.R;
 import com.example.w10.pmsu.adapters.CommentsAdapter;
+import com.example.w10.pmsu.service.CommentService;
+import com.example.w10.pmsu.service.ServiceUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import model.Comment;
 import model.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommentsFragment extends Fragment {
     View view;
@@ -30,9 +36,10 @@ public class CommentsFragment extends Fragment {
     User u2 = new User();
     Comment c3 = new Comment();
     User u3 = new User();
-    ArrayList<Comment> comments = new ArrayList<>();
+    List<Comment> comments;
     private CommentsAdapter commentsAdapter;
     private SharedPreferences sharedPreferences;
+    private CommentService commentService;
 
     public CommentsFragment(){
 
@@ -72,13 +79,38 @@ public class CommentsFragment extends Fragment {
         c3.setDate(new Date(2014-1900, 8, 30, 12, 15));
         c3.setLikes(78);
 
-        comments.add(c1);
-        comments.add(c2);
-        comments.add(c3);
+//        comments.add(c1);
+//        comments.add(c2);
+//        comments.add(c3);
+
+
 
         commentsAdapter = new CommentsAdapter(getContext(), comments);
-        ListView listView = view.findViewById(R.id.comments_list);
-        listView.setAdapter(commentsAdapter);
+        final ListView listView = view.findViewById(R.id.comments_list);
+        commentService = ServiceUtils.commentService;
+//        listView.setAdapter(commentsAdapter);
+
+        Call call = commentService.getComments();
+
+        call.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+
+                comments = response.body();
+                commentsAdapter = new CommentsAdapter(getContext(), comments);
+                listView.setAdapter(commentsAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+            }
+        });
+
+
+
+
 
 //        consultPreferences();
 //        commentsAdapter.notifyDataSetChanged();
@@ -92,7 +124,7 @@ public class CommentsFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        consultPreferences();
+//        consultPreferences();
     }
 
     private void consultPreferences(){

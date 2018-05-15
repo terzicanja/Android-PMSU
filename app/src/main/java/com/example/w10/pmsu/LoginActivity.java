@@ -1,6 +1,8 @@
 package com.example.w10.pmsu;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +22,8 @@ public class LoginActivity extends AppCompatActivity {
 
     UserService userService;
     ServiceUtils serviceUtils;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +72,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 User u = response.body();
+                sharedPreferences = getApplicationContext().getSharedPreferences("Login", Context.MODE_PRIVATE);
+                editor = sharedPreferences.edit();
 
                 if (u.getUsername().equals(username) && u.getPassword().equals(password)){
                     Intent intent = new Intent(LoginActivity.this, PostsActivity.class);
+                    editor.putString("User", u.getName());
+                    editor.commit();
                     startActivity(intent);
                     finish();
+                }else {
+                    Toast.makeText(LoginActivity.this, "Wrong username or password",Toast.LENGTH_SHORT).show();
                 }
             }
 
