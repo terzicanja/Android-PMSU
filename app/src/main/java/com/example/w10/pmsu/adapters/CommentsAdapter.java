@@ -31,14 +31,14 @@ public class CommentsAdapter extends ArrayAdapter<Comment> {
 
         TextView korisnicko = view.findViewById(R.id.korisnicko);
         TextView komentar_datum = view.findViewById(R.id.komentar_datum);
-        TextView lajk = view.findViewById(R.id.lajk);
+//        TextView lajk = view.findViewById(R.id.lajk);
 
         String d = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(comment.getDate());
         String likes = Integer.toString(comment.getLikes());
 
         korisnicko.setText(comment.getAuthor().getUsername());
         komentar_datum.setText(d);
-        lajk.setText(likes);
+//        lajk.setText(likes);
 
         return view;
 

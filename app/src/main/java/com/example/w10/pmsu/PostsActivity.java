@@ -55,7 +55,7 @@ public class PostsActivity extends AppCompatActivity {
     private ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
     private AlertDialog dialog;
     private SharedPreferences sharedPreferences;
-    private List<Post> posts;
+    private ArrayList<Post> posts = new ArrayList<>();
     private Post post = new Post();
     private Post post1 = new Post();
     private Post post3 = new Post();
@@ -120,10 +120,10 @@ public class PostsActivity extends AppCompatActivity {
         post.setLikes(3);
         post1.setLikes(17);
         post3.setLikes(22);
-        Bitmap bmp1 = BitmapFactory.decodeResource(getResources(), R.drawable.img1);
-        Bitmap bmp2 = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_name);
-        post.setPhoto(bmp1);
-        post1.setPhoto(bmp2);
+//        Bitmap bmp1 = BitmapFactory.decodeResource(getResources(), R.drawable.img1);
+//        Bitmap bmp2 = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_name);
+//        post.setPhoto(bmp1);
+//        post1.setPhoto(bmp2);
 
 
         post.getDate();
@@ -136,34 +136,34 @@ public class PostsActivity extends AppCompatActivity {
 //        post1.getLikes();
 //        post3.getLikes();
 
-//        posts.add(post);
+        posts.add(post);
 //        posts.add(post1);
 //        posts.add(post3);
 
         postAdapter = new PostAdapter(this, posts);
         final ListView listView = findViewById(R.id.post_list);
-        postService = ServiceUtils.postService;
+//        postService = ServiceUtils.postService;
+//
+//        Call call = postService.getPosts();
+//
+//        call.enqueue(new Callback<List<Post>>() {
+//            @Override
+//            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+//                posts = response.body();
+//                postAdapter = new PostAdapter(getApplicationContext(), posts);
+//                listView.setAdapter(postAdapter);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call call, Throwable t) {
+//                t.printStackTrace();
+//
+//            }
+//        });
 
-        Call call = postService.getPosts();
 
-        call.enqueue(new Callback<List<Post>>() {
-            @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                posts = response.body();
-                postAdapter = new PostAdapter(getApplicationContext(), posts);
-                listView.setAdapter(postAdapter);
-
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                t.printStackTrace();
-
-            }
-        });
-
-
-//        listView.setAdapter(postAdapter);
+        listView.setAdapter(postAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override

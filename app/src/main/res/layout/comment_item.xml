@@ -5,51 +5,99 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-        <ScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:id="@+id/komentar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="wrap_content"
+            android:padding="15dp">
 
-            <RelativeLayout
-                android:id="@+id/komentar"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/korisnicko"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="15dp">
+                android:text="korisnicko"
+                android:textSize="20dp" />
 
-                <TextView
-                    android:id="@+id/korisnicko"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="korisnicko"
-                    android:textSize="20dp"/>
+            <TextView
+                android:id="@+id/komentar_sadrzaj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/komentar_datum"
+                android:layout_marginRight="10dp"
+                android:text="sadrzaj komentara" />
 
-                <TextView
-                    android:id="@+id/komentar_sadrzaj"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="sadrzaj komentara"
-                    android:layout_below="@id/komentar_datum"
-                    android:layout_marginRight="10dp"/>
+            <ImageButton
+                android:id="@+id/like_comment_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/korisnicko"
+                android:layout_toRightOf="@id/komentar_sadrzaj"
+                android:src="@drawable/ic_arrow_upward" />
 
-                <TextView
-                    android:id="@+id/komentar_datum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="date"
-                    android:layout_below="@id/korisnicko"/>
+            <TextView
+                android:id="@+id/comment_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/korisnicko"
+                android:layout_toRightOf="@id/like_comment_btn"
+                android:text="1234" />
 
-                <TextView
-                    android:id="@+id/lajk"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="location"
-                    android:layout_margin="15dp"
-                    android:layout_toRightOf="@id/komentar_datum"
-                    android:layout_marginLeft="20dp"/>
+            <ImageButton
+                android:id="@+id/dislike_comment_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/korisnicko"
+                android:layout_toRightOf="@id/comment_rating"
+                android:src="@drawable/ic_arrow_downward" />
 
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/komentar_datum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/korisnicko"
+                android:text="date" />
 
-        </ScrollView>
+            <TextView
+                android:id="@+id/lokacija"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/korisnicko"
+                android:text="location" />
+
+            <RadioGroup
+                android:id="@+id/comments_radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/komentar_sadrzaj">
+
+                    <RadioButton
+                        android:id="@+id/btn_like"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onRadioButtonClicked"
+                        android:background="@drawable/custom_radio_btn_up"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/btn_dislike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onRadioButtonClicked"
+                        android:layout_toRightOf="@id/btn_like"
+                        android:background="@drawable/custom_radio_btn_down"
+                        android:button="@null" />
+
+            </RadioGroup>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>

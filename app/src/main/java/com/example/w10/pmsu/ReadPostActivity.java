@@ -25,7 +25,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.w10.pmsu.adapters.DrawerListAdapter;
 import com.example.w10.pmsu.fragments.CommentsFragment;
@@ -263,4 +265,26 @@ public class ReadPostActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
     }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        RadioButton rb = (RadioButton) findViewById(view.getId());
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.btn_like:
+                if (checked)
+                    Toast.makeText(this, "nesto se desilo",Toast.LENGTH_SHORT).show();
+                // Pirates are the best
+                break;
+            case R.id.btn_dislike:
+                if (checked)
+                    Toast.makeText(this, "nestoooooooooo",Toast.LENGTH_SHORT).show();
+                // Ninjas rule
+                break;
+        }
+    }
+
+
 }

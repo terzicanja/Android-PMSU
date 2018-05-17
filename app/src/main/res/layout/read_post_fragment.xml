@@ -24,85 +24,95 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:transitionName="img_transition"
+                android:layout_marginBottom="10dp"
                 android:background="@color/colorPrimaryDark"/>
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="location"
+                android:layout_below="@id/image"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="date"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_below="@id/image"/>
+
+            <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/image"
-                android:layout_margin="20dp">
+                android:padding="15dp"
+                android:text="Naslov"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorPrimary"
+                android:layout_below="@id/date"
+                android:transitionName="naslov_transition"/>
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Naslov"
-                    android:textSize="20dp"
-                    android:transitionName="naslov_transition"/>
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="author"
+                android:layout_below="@id/title"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"/>
 
-                <TextView
-                    android:id="@+id/author"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="author"
-                    android:layout_below="@id/title"
-                    android:layout_marginRight="10dp"/>
+            <ImageButton
+                android:id="@+id/like_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_upward"
+                android:layout_toLeftOf="@id/post_rating"
+                android:layout_below="@id/title"/>
 
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="date"
-                    android:layout_toRightOf="@id/author"
-                    android:layout_below="@id/title"/>
+            <TextView
+                android:id="@+id/post_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title"
+                android:text="1234"
+                android:layout_toLeftOf="@id/dislike_btn"/>
 
-                <TextView
-                    android:id="@+id/location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="location"
-                    android:layout_toRightOf="@id/date"
-                    android:layout_below="@id/title"
-                    android:layout_marginLeft="20dp"/>
+            <ImageButton
+                android:id="@+id/dislike_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_arrow_downward"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/title"/>
 
-                <Button
-                    android:id="@+id/like_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="like"
-                    android:layout_below="@id/author"/>
+            <TextView
+                android:id="@+id/tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="#tags"
+                android:layout_below="@id/like_btn"/>
 
-                <TextView
-                    android:id="@+id/like_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="22"
-                    android:layout_toRightOf="@id/like_btn"/>
-
-                <TextView
-                    android:id="@+id/tags"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="#tags"
-                    android:layout_below="@id/like_btn"/>
-
-                <TextView
-                    android:id="@+id/vest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="For a company as big and sprawling as Google, an annual developer conference can feel overwhelming. And, frankly, it is. Google offers a dizzying number of services and dabbles in almost every consumer tech industry under the sun, not to mention the 7 billion-plus user core internet products it owns and operates. But the company has a measured tempo when it com
+            <TextView
+                android:id="@+id/vest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="For a company as big and sprawling as Google, an annual developer conference can feel overwhelming. And, frankly, it is. Google offers a dizzying number of services and dabbles in almost every consumer tech industry under the sun, not to mention the 7 billion-plus user core internet products it owns and operates. But the company has a measured tempo when it com
 
 At this year’s I/O, which will be held again at the Shoreline Amphitheater in Mountain View, California starting Tuesday, May 8th, we know we’ll be hearing about the future of Android and Google’s artificial intelligence efforts. But there will also be news on everything from its new wearable platform, Wear OS, and Google Assistant to Android TV, Google Home, Google Play, and Search."
-                    android:layout_below="@id/tags"/>
+                android:layout_below="@id/tags"/>
 
-                <TextView
-                    android:id="@+id/comment_like_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="12"
-                    android:layout_below="@id/comment"/>
-
-            </RelativeLayout>
 
         </RelativeLayout>
 

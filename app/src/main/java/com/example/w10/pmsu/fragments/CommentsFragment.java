@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.w10.pmsu.R;
 import com.example.w10.pmsu.adapters.CommentsAdapter;
@@ -36,7 +39,7 @@ public class CommentsFragment extends Fragment {
     User u2 = new User();
     Comment c3 = new Comment();
     User u3 = new User();
-    List<Comment> comments;
+    List<Comment> comments = new ArrayList<>();
     private CommentsAdapter commentsAdapter;
     private SharedPreferences sharedPreferences;
     private CommentService commentService;
@@ -79,7 +82,7 @@ public class CommentsFragment extends Fragment {
         c3.setDate(new Date(2014-1900, 8, 30, 12, 15));
         c3.setLikes(78);
 
-//        comments.add(c1);
+        comments.add(c1);
 //        comments.add(c2);
 //        comments.add(c3);
 
@@ -88,25 +91,25 @@ public class CommentsFragment extends Fragment {
         commentsAdapter = new CommentsAdapter(getContext(), comments);
         final ListView listView = view.findViewById(R.id.comments_list);
         commentService = ServiceUtils.commentService;
-//        listView.setAdapter(commentsAdapter);
+        listView.setAdapter(commentsAdapter);
 
-        Call call = commentService.getComments();
-
-        call.enqueue(new Callback<List<Comment>>() {
-            @Override
-            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
-
-                comments = response.body();
-                commentsAdapter = new CommentsAdapter(getContext(), comments);
-                listView.setAdapter(commentsAdapter);
-
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-
-            }
-        });
+//        Call call = commentService.getComments();
+//
+//        call.enqueue(new Callback<List<Comment>>() {
+//            @Override
+//            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+//
+//                comments = response.body();
+//                commentsAdapter = new CommentsAdapter(getContext(), comments);
+//                listView.setAdapter(commentsAdapter);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call call, Throwable t) {
+//
+//            }
+//        });
 
 
 
@@ -125,6 +128,22 @@ public class CommentsFragment extends Fragment {
     public void onResume(){
         super.onResume();
 //        consultPreferences();
+
+//        RadioGroup comments_radio_group = (RadioGroup)view.findViewById(R.id.comments_radio_group);
+//
+//        if(comments_radio_group.getCheckedRadioButtonId()==-1)
+//        {
+//            Toast.makeText(getContext(), "nesto se desilo",Toast.LENGTH_SHORT).show();
+//        }
+//        else
+//        {
+////            // get selected radio button from radioGroup
+////            int selectedId = gender.getCheckedRadioButtonId();
+////            // find the radiobutton by returned id
+////            selectedRadioButton = (RadioButton)findViewById(selectedId);
+////            Toast.makeText(getApplicationContext(), selectedRadioButton.getText().toString()+" is selected", Toast.LENGTH_SHORT).show();
+//        }
+
     }
 
     private void consultPreferences(){
@@ -175,5 +194,24 @@ public class CommentsFragment extends Fragment {
         });
 //        commentsAdapter.notifyDataSetChanged();
     }
+
+//    public void onRadioButtonClicked(View view) {
+//        // Is the button now checked?
+//        boolean checked = ((RadioButton) view).isChecked();
+//
+//        // Check which radio button was clicked
+//        switch(view.getId()) {
+//            case R.id.btn_like:
+//                if (checked)
+//                    Toast.makeText(getContext(), "nesto se desilo",Toast.LENGTH_SHORT).show();
+//                    // Pirates are the best
+//                    break;
+//            case R.id.btn_dislike:
+//                if (checked)
+//                    Toast.makeText(getContext(), "nestoooooooooo",Toast.LENGTH_SHORT).show();
+//                    // Ninjas rule
+//                    break;
+//        }
+//    }
 
 }

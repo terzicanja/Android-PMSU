@@ -21,7 +21,7 @@ import model.Post;
 
 public class PostAdapter extends ArrayAdapter<Post> {
 
-    public PostAdapter(Context context, List<Post> posts){
+    public PostAdapter(Context context, ArrayList<Post> posts){
         super(context, 0, posts);
     }
 
@@ -47,7 +47,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         date_view.setText(newDate);
         title_view.setText(post.getTitle());
         likes_view.setText(likes);
-        image_view.setImageBitmap(post.getPhoto());
+//        image_view.setImageBitmap(post.getPhoto());
 //        image_view.setScaleType(ImageView.ScaleType.FIT_XY);
         description.setText(post.getDescription());
 
