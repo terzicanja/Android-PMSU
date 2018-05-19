@@ -20,4 +20,7 @@ public interface PostService {
 
     @GET(ServiceUtils.POSTS)
     Call<List<Post>> getPosts();
+
+    @POST(ServiceUtils.POSTS)
+    Call<Post> savePost(@Body Post post);
 }

@@ -74,6 +74,8 @@
                 android:id="@+id/comments_radio_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:onClick="onRadioGroupClicked"
                 android:layout_below="@id/komentar_sadrzaj">
 
                     <RadioButton
@@ -94,6 +96,21 @@
                         android:button="@null" />
 
             </RadioGroup>
+
+            <Button
+                android:id="@+id/delete_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="delete"
+                android:layout_below="@id/comments_radio_group"/>
+
+            <Button
+                android:id="@+id/edit_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="edit"
+                android:layout_toRightOf="@id/delete_comment"
+                android:layout_below="@id/comments_radio_group"/>
 
         </RelativeLayout>
 

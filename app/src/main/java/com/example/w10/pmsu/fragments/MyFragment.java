@@ -86,9 +86,9 @@ public class MyFragment extends ListFragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id == R.id.action_about){
-            Toast.makeText(getActivity(), "Refresh App", Toast.LENGTH_SHORT).show();
-        }
+//        if(id == R.id.action_about){
+//            Toast.makeText(getActivity(), "Refresh App", Toast.LENGTH_SHORT).show();
+//        }
         return super.onOptionsItemSelected(item);
     }
 }

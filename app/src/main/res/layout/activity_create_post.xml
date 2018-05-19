@@ -70,13 +70,20 @@
                 android:layout_below="@id/location_text"
                 android:hint="Tag"/>
 
+            <AutoCompleteTextView
+                android:id="@+id/tags"
+                android:hint="#"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tag"/>
+
             <Button
                 android:id="@+id/post_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="btnStartPostsActivity"
                 android:text="Post"
-                android:layout_below="@id/tag"
+                android:layout_below="@id/tags"
                 android:layout_toRightOf="@id/photo_btn"/>
 
             <Button
@@ -84,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add photo"
-                android:layout_below="@id/tag"/>
+                android:layout_below="@id/tags"/>
 
         </RelativeLayout>
 

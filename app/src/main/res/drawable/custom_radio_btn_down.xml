@@ -11,13 +11,13 @@
 
     <item android:state_checked="true"
         android:state_pressed="true"
-        android:drawable="@drawable/ic_settings_black_24dp" />
+        android:drawable="@drawable/ic_arrow_downward" />
     <item android:state_checked="false"
         android:state_pressed="true"
-        android:drawable="@drawable/ic_menu" />
+        android:drawable="@drawable/ic_arrow_downward" />
 
     <item android:state_checked="true"
-        android:drawable="@drawable/ic_arrow_downward"
+        android:drawable="@drawable/ic_arrow_downward_clicked"
         android:color="@color/colorAccent"/>
     <item android:state_checked="false"
         android:drawable="@drawable/ic_arrow_downward"

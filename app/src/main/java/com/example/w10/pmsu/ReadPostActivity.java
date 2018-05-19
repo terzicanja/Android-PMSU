@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -26,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -98,6 +99,10 @@ public class ReadPostActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
 
+        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        //nzm sta radi ova linija ispod
+        mDrawerToggle.syncState();
 
 
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
@@ -162,6 +167,9 @@ public class ReadPostActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+
+
     }
 
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
@@ -271,6 +279,9 @@ public class ReadPostActivity extends AppCompatActivity {
         RadioButton rb = (RadioButton) findViewById(view.getId());
         boolean checked = ((RadioButton) view).isChecked();
 
+
+        if (checked)
+
         // Check which radio button was clicked
         switch(view.getId()) {
             case R.id.btn_like:
@@ -285,6 +296,23 @@ public class ReadPostActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    public void onRadioGroupClicked(View view){
+        RadioGroup radioGroup = findViewById(R.id.comments_radio_group);
+        RadioButton rb1 = findViewById(R.id.btn_like);
+        RadioButton rb2 = findViewById(R.id.btn_dislike);
+
+        Boolean checked1 = rb1.isChecked();
+
+        if (checked1 != null){
+            if (rb1.isChecked() && rb1.isPressed()){
+                Toast.makeText(this, "opet je kliknut",Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
 
 
 }

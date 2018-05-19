@@ -6,23 +6,18 @@
         android:drawable="@drawable/ic_arrow_upward"/>
     <item android:state_checked="false"
         android:state_window_focused="false"
-        android:drawable="@drawable/ic_arrow_upward"
-        android:color="@color/colorAccent" />
+        android:drawable="@drawable/ic_arrow_upward"/>
 
     <item android:state_checked="true"
         android:state_pressed="true"
-        android:color="@color/colorAccent"
-        android:drawable="@drawable/ic_settings_black_24dp" />
+        android:drawable="@drawable/ic_arrow_upward" />
     <item android:state_checked="false"
         android:state_pressed="true"
-        android:drawable="@drawable/ic_menu" />
+        android:drawable="@drawable/ic_arrow_upward" />
 
     <item android:state_checked="true"
-        android:state_activated="true"
-        android:drawable="@drawable/ic_arrow_upward"
-        android:color="@color/colorAccent"/>
+        android:drawable="@drawable/ic_arrow_upward_clicked"/>
     <item android:state_checked="false"
-        android:drawable="@drawable/ic_arrow_upward"
-        android:color="@color/colorAccent"/>
+        android:drawable="@drawable/ic_arrow_upward"/>
 
 </selector>

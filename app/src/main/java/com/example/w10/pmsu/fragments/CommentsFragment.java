@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -19,6 +21,7 @@ import com.example.w10.pmsu.service.CommentService;
 import com.example.w10.pmsu.service.ServiceUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -26,6 +29,7 @@ import java.util.List;
 
 import model.Comment;
 import model.User;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,6 +47,9 @@ public class CommentsFragment extends Fragment {
     private CommentsAdapter commentsAdapter;
     private SharedPreferences sharedPreferences;
     private CommentService commentService;
+
+    private EditText write_comment_title;
+    private EditText write_comment;
 
     public CommentsFragment(){
 
@@ -111,6 +118,47 @@ public class CommentsFragment extends Fragment {
 //            }
 //        });
 
+
+        Button post_comment = view.findViewById(R.id.comment_post_btn);
+        write_comment_title = view.findViewById(R.id.write_comment_title);
+        write_comment = view.findViewById(R.id.write_comment);
+
+
+        post_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Comment comment = new Comment();
+
+                String comment_title = write_comment_title.getText().toString();
+                String txtComment = write_comment.getText().toString();
+
+                comment.setTitle(comment_title);
+                comment.setDescription(txtComment);
+                Date date = Calendar.getInstance().getTime();
+                comment.setDate(date);
+//                comment.setAuthor(user);
+//                comment.setPost(post);
+                comment.setLikes(0);
+                comment.setDislikes(0);
+
+                Toast.makeText(getContext(), txtComment,Toast.LENGTH_SHORT).show();
+
+//                Call<ResponseBody> call = commentService.addComment(comment);
+//                call.enqueue(new Callback<ResponseBody>() {
+//                    @Override
+//                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                        Toast.makeText(getContext(),"Added comment",Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//                    }
+//                });
+
+
+            }
+        });
 
 
 
@@ -213,5 +261,9 @@ public class CommentsFragment extends Fragment {
 //                    break;
 //        }
 //    }
+
+    public void createComment(){
+        Toast.makeText(getContext(), "pravljenje komentara",Toast.LENGTH_SHORT).show();
+    }
 
 }

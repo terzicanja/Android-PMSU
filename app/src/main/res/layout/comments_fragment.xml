@@ -15,10 +15,47 @@
             android:layout_height="match_parent"
             android:fillViewport="true">
 
-            <ListView
-                android:id="@+id/comments_list"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/write_comment_title"
+                    android:hint="Write a title..."
+                    android:layout_width="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/comment_post_btn"/>
+
+                <EditText
+                    android:id="@+id/write_comment"
+                    android:hint="Write a comment..."
+                    android:layout_width="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/write_comment_title"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/comment_post_btn"/>
+
+                <Button
+                    android:id="@+id/comment_post_btn"
+                    android:layout_width="wrap_content"
+                    android:text="POST"
+                    android:layout_margin="10dp"
+                    android:onClick="createComment"
+                    android:layout_alignParentRight="true"
+                    android:layout_height="wrap_content"/>
+
+                <ListView
+                    android:id="@+id/comments_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/write_comment"/>
+
+            </RelativeLayout>
+
+
 
 
             <!--<RelativeLayout-->

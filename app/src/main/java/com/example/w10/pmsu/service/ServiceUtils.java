@@ -19,6 +19,8 @@ public class ServiceUtils {
     //147.91.167.145
     public static final String POSTS = "posts";
     public static final String COMMENTS = "comments";
+    public static final String TAGS = "tags";
+    public static final String TAGS_BY_POST = "tags";
     public static final String LOGIN = "users/{username}";
 
     public static OkHttpClient test(){
@@ -48,6 +50,7 @@ public class ServiceUtils {
     public static PostService postService = retrofit.create(PostService.class);
     public static CommentService commentService = retrofit.create(CommentService.class);
     public static UserService userService = retrofit.create(UserService.class);
+    public static TagService tagService = retrofit.create(TagService.class);
 
 
 }

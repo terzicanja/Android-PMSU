@@ -6,7 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.DrawerLayout;
@@ -124,6 +124,13 @@ public class PostsActivity extends AppCompatActivity {
 //        Bitmap bmp2 = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_name);
 //        post.setPhoto(bmp1);
 //        post1.setPhoto(bmp2);
+
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        //nzm sta radi ova linija ispod
+        mDrawerToggle.syncState();
+
 
 
         post.getDate();
@@ -336,8 +343,16 @@ public class PostsActivity extends AppCompatActivity {
         // Sync the toggle state after onRestoreInstanceState has occurred.
 
 
-        //nzm sta radi ova linija ispod
-//        mDrawerToggle.syncState();
+//        mDrawerToggle = new ActionBarDrawerToggle(
+//                this,
+//                mDrawerLayout,
+//                toolbar,
+//                R.string.drawer_open,
+//                R.string.drawer_close
+//        );
+//        mDrawerLayout.addDrawerListener(mDrawerToggle);
+//        //nzm sta radi ova linija ispod
+////        mDrawerToggle.syncState();
     }
 
     @Override

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -20,20 +20,30 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import model.NavItem;
+import model.Post;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import com.example.w10.pmsu.adapters.DrawerListAdapter;
 import com.example.w10.pmsu.activities.ReviewerPreferenceActivity;
 import com.example.w10.pmsu.dialogs.LocationDialog;
 import com.example.w10.pmsu.fragments.MyFragment;
+import com.example.w10.pmsu.service.PostService;
+import com.example.w10.pmsu.service.ServiceUtils;
+import com.example.w10.pmsu.service.TagService;
+import com.example.w10.pmsu.service.UserService;
 import com.example.w10.pmsu.tools.FragmentTransition;
 
 import java.util.ArrayList;
-
-
+import java.util.Calendar;
+import java.util.Date;
 
 public class CreatePostActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -44,6 +54,13 @@ public class CreatePostActivity extends AppCompatActivity {
     private CharSequence mTitle;
     private ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
     private AlertDialog dialog;
+
+    private EditText title_text;
+    private EditText write_post;
+
+    private PostService postService;
+    private UserService userService;
+    private TagService tagService;
 
     private String synctime;
     private boolean allowSync;
@@ -117,6 +134,19 @@ public class CreatePostActivity extends AppCompatActivity {
 //        };
 //        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+        title_text = findViewById(R.id.title_text);
+        write_post = findViewById(R.id.write_post);
+
+        postService = ServiceUtils.postService;
+        userService = ServiceUtils.userService;
+        tagService = ServiceUtils.tagService;
+
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+
         if (savedInstanceState == null) {
             selectItemFromDrawer(0);
         }
@@ -145,6 +175,35 @@ public class CreatePostActivity extends AppCompatActivity {
         }
 
         dialog.show();
+    }
+
+    public void confirmPost(){
+        Post post = new Post();
+
+        String title = title_text.getText().toString();
+        String description = write_post.getText().toString();
+        post.setTitle(title);
+        post.setDescription(description);
+//        post.setAuthor(user);
+        post.setLikes(0);
+        post.setDislikes(0);
+        Date date = Calendar.getInstance().getTime();
+        post.setDate(date);
+
+        Toast.makeText(getApplicationContext(), "post created",Toast.LENGTH_SHORT).show();
+
+//        Call<Post> call = postService.savePost(post);
+//        call.enqueue(new Callback<Post>() {
+//            @Override
+//            public void onResponse(Call<Post> call, Response<Post> response) {
+//                Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Post> call, Throwable t) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -194,6 +253,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 startActivity(i);
                 return true;
             case R.id.action_confirm:
+                confirmPost();
                 Intent in = new Intent(this, PostsActivity.class);
                 startActivity(in);
                 return true;
@@ -245,7 +305,7 @@ public class CreatePostActivity extends AppCompatActivity {
         }
 
         mDrawerList.setItemChecked(position, true);
-//        if(position != 5) // za sve osim za sync
+//        if(position != 5)
 //        {
 //            setTitle(mNavItems.get(position).getmTitle());
 //        }
@@ -262,8 +322,6 @@ public class CreatePostActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-
 
         //nzm sta radi ova linija ispod
 //        mDrawerToggle.syncState();
@@ -272,7 +330,6 @@ public class CreatePostActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
