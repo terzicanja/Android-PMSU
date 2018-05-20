@@ -21,7 +21,7 @@ import model.Post;
 
 public class PostAdapter extends ArrayAdapter<Post> {
 
-    public PostAdapter(Context context, ArrayList<Post> posts){
+    public PostAdapter(Context context, List<Post> posts){
         super(context, 0, posts);
     }
 

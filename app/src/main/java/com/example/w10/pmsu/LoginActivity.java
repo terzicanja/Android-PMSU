@@ -63,38 +63,38 @@ public class LoginActivity extends AppCompatActivity {
 
     public void btnStartPostsActivity(View view){
 
-//        EditText username_login = findViewById(R.id.username_login);
-//        EditText password_login = findViewById(R.id.password_login);
-//
-//        final String username = username_login.getText().toString();
-//        final String password = password_login.getText().toString();
+        EditText username_login = findViewById(R.id.username_login);
+        EditText password_login = findViewById(R.id.password_login);
 
-//        userService = ServiceUtils.userService;
-//        Call<User> call = userService.getUserByUsername(username);
-//
-//        call.enqueue(new Callback<User>() {
-//            @Override
-//            public void onResponse(Call<User> call, Response<User> response) {
-//                User u = response.body();
-//                sharedPreferences = getApplicationContext().getSharedPreferences("Login", Context.MODE_PRIVATE);
-//                editor = sharedPreferences.edit();
-//
-//                if (u.getUsername().equals(username) && u.getPassword().equals(password)){
-//                    Intent intent = new Intent(LoginActivity.this, PostsActivity.class);
-//                    editor.putString("User", u.getName());
-//                    editor.commit();
-//                    startActivity(intent);
-//                    finish();
-//                }else {
-//                    Toast.makeText(LoginActivity.this, "Wrong username or password",Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<User> call, Throwable t) {
-//
-//            }
-//        });
+        final String username = username_login.getText().toString();
+        final String password = password_login.getText().toString();
+
+        userService = ServiceUtils.userService;
+        Call<User> call = userService.getUserByUsername(username);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User u = response.body();
+                sharedPreferences = getApplicationContext().getSharedPreferences("Login", Context.MODE_PRIVATE);
+                editor = sharedPreferences.edit();
+
+                if (u.getUsername().equals(username) && u.getPassword().equals(password)){
+                    Intent intent = new Intent(LoginActivity.this, PostsActivity.class);
+                    editor.putString("User", u.getName());
+                    editor.commit();
+                    startActivity(intent);
+                    finish();
+                }else {
+                    Toast.makeText(LoginActivity.this, "Wrong username or password",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
 
 
 
@@ -114,8 +114,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        Intent i = new Intent(this, PostsActivity.class);
-        startActivity(i);
-        finish();
+//        Intent i = new Intent(this, PostsActivity.class);
+//        startActivity(i);
+//        finish();
     }
 }

@@ -21,6 +21,6 @@ public interface PostService {
     @GET(ServiceUtils.POSTS)
     Call<List<Post>> getPosts();
 
-    @POST(ServiceUtils.POSTS)
+    @POST("posts/create")
     Call<Post> savePost(@Body Post post);
 }

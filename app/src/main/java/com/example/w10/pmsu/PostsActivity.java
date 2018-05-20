@@ -31,6 +31,7 @@ import com.example.w10.pmsu.fragments.MyFragment;
 import com.example.w10.pmsu.service.PostService;
 import com.example.w10.pmsu.service.ServiceUtils;
 import com.example.w10.pmsu.tools.FragmentTransition;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,7 +56,7 @@ public class PostsActivity extends AppCompatActivity {
     private ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
     private AlertDialog dialog;
     private SharedPreferences sharedPreferences;
-    private ArrayList<Post> posts = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
     private Post post = new Post();
     private Post post1 = new Post();
     private Post post3 = new Post();
@@ -143,49 +144,65 @@ public class PostsActivity extends AppCompatActivity {
 //        post1.getLikes();
 //        post3.getLikes();
 
-        posts.add(post);
+//        posts.add(post);
 //        posts.add(post1);
 //        posts.add(post3);
 
         postAdapter = new PostAdapter(this, posts);
         final ListView listView = findViewById(R.id.post_list);
-//        postService = ServiceUtils.postService;
-//
-//        Call call = postService.getPosts();
-//
-//        call.enqueue(new Callback<List<Post>>() {
-//            @Override
-//            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-//                posts = response.body();
-//                postAdapter = new PostAdapter(getApplicationContext(), posts);
-//                listView.setAdapter(postAdapter);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call call, Throwable t) {
-//                t.printStackTrace();
-//
-//            }
-//        });
+        postService = ServiceUtils.postService;
 
+        Call call = postService.getPosts();
 
-        listView.setAdapter(postAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        call.enqueue(new Callback<List<Post>>() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent startReadPost = new Intent(PostsActivity.this, ReadPostActivity.class);
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                posts = response.body();
+                postAdapter = new PostAdapter(getApplicationContext(), posts);
+                listView.setAdapter(postAdapter);
 
-                Pair<View, String> p1 = Pair.create(findViewById(R.id.image_view), "img_transition");
-                Pair<View, String> p2 = Pair.create(findViewById(R.id.title_view), "naslov_transition");
+            }
 
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                t.printStackTrace();
 
-                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(PostsActivity.this, p1, p2 );
-
-                startActivity(startReadPost, optionsCompat.toBundle());
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                post = posts.get(i);
+                Intent intent = new Intent(PostsActivity.this, ReadPostActivity.class);
+                intent.putExtra("Post", new Gson().toJson(post));
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+
+
+
+//        listView.setAdapter(postAdapter);
+
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+//                Intent startReadPost = new Intent(PostsActivity.this, ReadPostActivity.class);
+//
+//                Pair<View, String> p1 = Pair.create(findViewById(R.id.image_view), "img_transition");
+//                Pair<View, String> p2 = Pair.create(findViewById(R.id.title_view), "naslov_transition");
+//
+//
+//                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(PostsActivity.this, p1, p2 );
+//
+//                startActivity(startReadPost, optionsCompat.toBundle());
+//            }
+//        });
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }

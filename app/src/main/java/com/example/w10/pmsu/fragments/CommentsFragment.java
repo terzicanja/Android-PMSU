@@ -19,6 +19,7 @@ import com.example.w10.pmsu.R;
 import com.example.w10.pmsu.adapters.CommentsAdapter;
 import com.example.w10.pmsu.service.CommentService;
 import com.example.w10.pmsu.service.ServiceUtils;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 
 import model.Comment;
+import model.Post;
 import model.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -50,6 +52,7 @@ public class CommentsFragment extends Fragment {
 
     private EditText write_comment_title;
     private EditText write_comment;
+    private ListView listView;
 
     public CommentsFragment(){
 
@@ -63,7 +66,6 @@ public class CommentsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.comments_fragment, container, false);
     }
 
@@ -89,17 +91,49 @@ public class CommentsFragment extends Fragment {
         c3.setDate(new Date(2014-1900, 8, 30, 12, 15));
         c3.setLikes(78);
 
-        comments.add(c1);
+//        comments.add(c1);
 //        comments.add(c2);
 //        comments.add(c3);
 
 
 
-        commentsAdapter = new CommentsAdapter(getContext(), comments);
-        final ListView listView = view.findViewById(R.id.comments_list);
-        commentService = ServiceUtils.commentService;
-        listView.setAdapter(commentsAdapter);
+        String jsonMyObject = null;
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+            jsonMyObject = extras.getString("Post");
+        }
+        Post post = new Gson().fromJson(jsonMyObject, Post.class);
 
+        listView = view.findViewById(R.id.comments_list);
+
+        commentService = ServiceUtils.commentService;
+
+        Call<List<Comment>> call = commentService.getCommentsByPost(post.getId());
+
+        call.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                comments = response.body();
+                commentsAdapter = new CommentsAdapter(getContext(),comments);
+                listView.setAdapter(commentsAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+
+            }
+        });
+
+
+
+
+
+
+//        commentsAdapter = new CommentsAdapter(getContext(), comments);
+//        final ListView listView = view.findViewById(R.id.comments_list);
+//        commentService = ServiceUtils.commentService;
+//        listView.setAdapter(commentsAdapter);
+//
 //        Call call = commentService.getComments();
 //
 //        call.enqueue(new Callback<List<Comment>>() {
@@ -143,18 +177,18 @@ public class CommentsFragment extends Fragment {
 
                 Toast.makeText(getContext(), txtComment,Toast.LENGTH_SHORT).show();
 
-//                Call<ResponseBody> call = commentService.addComment(comment);
-//                call.enqueue(new Callback<ResponseBody>() {
-//                    @Override
-//                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                        Toast.makeText(getContext(),"Added comment",Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-//
-//                    }
-//                });
+                Call<ResponseBody> call = commentService.addComment(comment);
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        Toast.makeText(getContext(),"Added comment",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
 
 
             }

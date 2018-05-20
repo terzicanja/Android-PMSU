@@ -15,13 +15,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceUtils {
 
-    public static final String SERVICE_API_PATH = "http://192.168.0.12:8080/api/";
+    public static final String SERVICE_API_PATH = "http://d4e09689.ngrok.io/api/";
     //147.91.167.145
     public static final String POSTS = "posts";
     public static final String COMMENTS = "comments";
     public static final String TAGS = "tags";
-    public static final String TAGS_BY_POST = "tags";
-    public static final String LOGIN = "users/{username}";
+    public static final String LOGIN = "users/find/{username}";
 
     public static OkHttpClient test(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

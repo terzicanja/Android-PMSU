@@ -190,20 +190,20 @@ public class CreatePostActivity extends AppCompatActivity {
         Date date = Calendar.getInstance().getTime();
         post.setDate(date);
 
-        Toast.makeText(getApplicationContext(), "post created",Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "post created",Toast.LENGTH_SHORT).show();
 
-//        Call<Post> call = postService.savePost(post);
-//        call.enqueue(new Callback<Post>() {
-//            @Override
-//            public void onResponse(Call<Post> call, Response<Post> response) {
-//                Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Post> call, Throwable t) {
-//
-//            }
-//        });
+        Call<Post> call = postService.savePost(post);
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -260,6 +260,10 @@ public class CreatePostActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void btnCreatePost(View view) {
+        confirmPost();
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -348,8 +352,8 @@ public class CreatePostActivity extends AppCompatActivity {
         super.onRestart();
     }
 
-    public void btnStartPostsActivity(View view){
-        Intent i = new Intent(this, PostsActivity.class);
-        startActivity(i);
-    }
+//    public void btnStartPostsActivity(View view){
+//        Intent i = new Intent(this, PostsActivity.class);
+//        startActivity(i);
+//    }
 }

@@ -1,6 +1,5 @@
 package com.example.w10.pmsu.service;
 
-
 import java.util.List;
 
 import model.Comment;
@@ -10,6 +9,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface CommentService {
 
@@ -21,7 +21,8 @@ public interface CommentService {
     @GET(ServiceUtils.COMMENTS)
     Call<List<Comment>> getComments();
 
-
+    @GET("comments/post/{id}")
+    Call<List<Comment>> getCommentsByPost(@Path("id") Integer id);
 
     @POST(ServiceUtils.COMMENTS)
     Call<ResponseBody> addComment(@Body Comment comment);

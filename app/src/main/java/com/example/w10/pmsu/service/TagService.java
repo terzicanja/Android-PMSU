@@ -7,6 +7,7 @@ import model.Tag;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Path;
 
 public interface TagService {
 
@@ -18,7 +19,7 @@ public interface TagService {
     @GET(ServiceUtils.TAGS)
     Call<List<Tag>> getTags();
 
-    @GET(ServiceUtils.TAGS_BY_POST)
-    Call<List<Tag>> getTagsByPost();
+    @GET("posts/tags/{id}")
+    Call<List<Tag>> getTagsByPost(@Path("id") Integer id);
 
 }
