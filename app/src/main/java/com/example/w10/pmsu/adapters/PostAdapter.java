@@ -31,7 +31,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
         if(view == null){
             view = LayoutInflater.from(getContext()).inflate(R.layout.post_item, viewGroup, false);
-
         }
 
         TextView date_view = view.findViewById(R.id.date_view);

@@ -1,5 +1,6 @@
 package com.example.w10.pmsu.fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.example.w10.pmsu.R;
 import com.example.w10.pmsu.adapters.CommentsAdapter;
 import com.example.w10.pmsu.service.CommentService;
 import com.example.w10.pmsu.service.ServiceUtils;
+import com.example.w10.pmsu.service.UserService;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -49,6 +51,12 @@ public class CommentsFragment extends Fragment {
     private CommentsAdapter commentsAdapter;
     private SharedPreferences sharedPreferences;
     private CommentService commentService;
+    private UserService userService;
+    private Post post;
+    private static User user;
+
+    private RadioButton btn_like;
+    private RadioButton btn_dislike;
 
     private EditText write_comment_title;
     private EditText write_comment;
@@ -96,18 +104,16 @@ public class CommentsFragment extends Fragment {
 //        comments.add(c3);
 
 
-
         String jsonMyObject = null;
         Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
             jsonMyObject = extras.getString("Post");
         }
-        Post post = new Gson().fromJson(jsonMyObject, Post.class);
 
+        post = new Gson().fromJson(jsonMyObject, Post.class);
         listView = view.findViewById(R.id.comments_list);
 
         commentService = ServiceUtils.commentService;
-
         Call<List<Comment>> call = commentService.getCommentsByPost(post.getId());
 
         call.enqueue(new Callback<List<Comment>>() {
@@ -152,6 +158,25 @@ public class CommentsFragment extends Fragment {
 //            }
 //        });
 
+        sharedPreferences = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        final String ulogovani = sharedPreferences.getString("User", "");
+
+        userService = ServiceUtils.userService;
+
+        Call<User> callUser = userService.getUserByUsername(ulogovani);
+
+        callUser.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                user = response.body();
+                Toast.makeText(getContext(), "Pronadjen je user sa imenom " + user.getName(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
 
         Button post_comment = view.findViewById(R.id.comment_post_btn);
         write_comment_title = view.findViewById(R.id.write_comment_title);
@@ -170,8 +195,8 @@ public class CommentsFragment extends Fragment {
                 comment.setDescription(txtComment);
                 Date date = Calendar.getInstance().getTime();
                 comment.setDate(date);
-//                comment.setAuthor(user);
-//                comment.setPost(post);
+                comment.setAuthor(user);
+                comment.setPost(post);
                 comment.setLikes(0);
                 comment.setDislikes(0);
 
@@ -182,6 +207,8 @@ public class CommentsFragment extends Fragment {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         Toast.makeText(getContext(),"Added comment",Toast.LENGTH_SHORT).show();
+
+                        commentsAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -189,12 +216,40 @@ public class CommentsFragment extends Fragment {
 
                     }
                 });
-
-
             }
         });
 
 
+//        Button delete_comment = view.findViewById(R.id.delete_comment);
+//        delete_comment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Call<Comment> call = commentService.deleteComment(comment.getId());
+//                call.enqueue(new Callback<Comment>() {
+//                    @Override
+//                    public void onResponse(Call<Comment> call, Response<Comment> response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<Comment> call, Throwable t) {
+//
+//                    }
+//                });
+//            }
+//        });
+
+
+
+//        btn_like = view.findViewById(R.id.btn_like);
+//        btn_dislike = view.findViewById(R.id.btn_dislike);
+//
+//        btn_like.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                if(ulogovani.equals())
+//            }
+//        });
 
 
 //        consultPreferences();
@@ -299,5 +354,29 @@ public class CommentsFragment extends Fragment {
     public void createComment(){
         Toast.makeText(getContext(), "pravljenje komentara",Toast.LENGTH_SHORT).show();
     }
+
+
+//    public void onRadioButtonClicked(View view) {
+//        // Is the button now checked?
+//        RadioButton rb = (RadioButton) view.findViewById(view.getId());
+//        boolean checked = ((RadioButton) view).isChecked();
+//
+//
+//        if (checked)
+//
+//            // Check which radio button was clicked
+//            switch(view.getId()) {
+//                case R.id.btn_like:
+//                    if (checked)
+//                        Toast.makeText(getContext(), "nesto se desilo",Toast.LENGTH_SHORT).show();
+//                    // Pirates are the best
+//                    break;
+//                case R.id.btn_dislike:
+//                    if (checked)
+//                        Toast.makeText(getContext(), "nestoooooooooo",Toast.LENGTH_SHORT).show();
+//                    // Ninjas rule
+//                    break;
+//            }
+//    }
 
 }

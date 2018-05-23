@@ -277,6 +277,8 @@ public class PostsActivity extends AppCompatActivity {
 //
 //        Toast.makeText(this, syncConnPref,Toast.LENGTH_SHORT).show();
 
+        postAdapter.notifyDataSetChanged();
+
         consultPreferences();
     }
 

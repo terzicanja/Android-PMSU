@@ -1,5 +1,6 @@
 package com.example.w10.pmsu;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import model.NavItem;
 import model.Post;
+import model.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,6 +63,8 @@ public class CreatePostActivity extends AppCompatActivity {
     private PostService postService;
     private UserService userService;
     private TagService tagService;
+
+    public static User user;
 
     private String synctime;
     private boolean allowSync;
@@ -113,6 +117,10 @@ public class CreatePostActivity extends AppCompatActivity {
             actionBar.setHomeButtonEnabled(true);
         }
 
+        sharedPreferences = getSharedPreferences("Login", Context.MODE_PRIVATE);
+        String ulogovani = sharedPreferences.getString("User", "");
+        Toast.makeText(this, ulogovani,Toast.LENGTH_SHORT).show();
+
 //        mDrawerToggle = new ActionBarDrawerToggle(
 //                this,                  /* host Activity */
 //                mDrawerLayout,         /* DrawerLayout object */
@@ -140,6 +148,22 @@ public class CreatePostActivity extends AppCompatActivity {
         postService = ServiceUtils.postService;
         userService = ServiceUtils.userService;
         tagService = ServiceUtils.tagService;
+
+
+        Call<User> call = userService.getUserByUsername(ulogovani);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                user = response.body();
+                Toast.makeText(getApplicationContext(), "Pronadjen je user sa imenom " + user.getName(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
 
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
@@ -179,12 +203,13 @@ public class CreatePostActivity extends AppCompatActivity {
 
     public void confirmPost(){
         Post post = new Post();
+//        User user = new User();
 
         String title = title_text.getText().toString();
         String description = write_post.getText().toString();
         post.setTitle(title);
         post.setDescription(description);
-//        post.setAuthor(user);
+        post.setAuthor(user);
         post.setLikes(0);
         post.setDislikes(0);
         Date date = Calendar.getInstance().getTime();
@@ -197,6 +222,8 @@ public class CreatePostActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 Toast.makeText(getApplicationContext(), "Post created",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), PostsActivity.class);
+                startActivity(i);
             }
 
             @Override

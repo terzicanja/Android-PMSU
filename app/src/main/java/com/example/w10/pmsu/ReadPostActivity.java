@@ -1,5 +1,6 @@
 package com.example.w10.pmsu;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -33,11 +34,19 @@ import android.widget.Toast;
 import com.example.w10.pmsu.adapters.DrawerListAdapter;
 import com.example.w10.pmsu.fragments.CommentsFragment;
 import com.example.w10.pmsu.fragments.ReadPostFragment;
+import com.example.w10.pmsu.service.PostService;
+import com.example.w10.pmsu.service.ServiceUtils;
+import com.example.w10.pmsu.service.UserService;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import model.NavItem;
+import model.Post;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ReadPostActivity extends AppCompatActivity {
 
@@ -50,6 +59,11 @@ public class ReadPostActivity extends AppCompatActivity {
     private ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
     private AlertDialog dialog;
     private SharedPreferences sharedPreferences;
+
+    private String ulogovani;
+    private PostService postService;
+    private UserService userService;
+    private Post post = new Post();
 
     private String synctime;
     private boolean allowSync;
@@ -103,6 +117,16 @@ public class ReadPostActivity extends AppCompatActivity {
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         //nzm sta radi ova linija ispod
         mDrawerToggle.syncState();
+
+
+        String jsonMyObject = null;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            jsonMyObject = extras.getString("Post");
+        }
+        post = new Gson().fromJson(jsonMyObject, Post.class);
+
+        postService = ServiceUtils.postService;
 
 
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
@@ -188,11 +212,34 @@ public class ReadPostActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        sharedPreferences = getApplicationContext().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        ulogovani = sharedPreferences.getString("User", "");
+
         switch (item.getItemId()) {
             case R.id.action_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
                 startActivity(i);
                 return true;
+            case R.id.action_delete:
+                if (ulogovani.equals(post.getAuthor().getUsername())){
+                    Call<Post> call = postService.deletePost(post.getId());
+                    call.enqueue(new Callback<Post>() {
+                        @Override
+                        public void onResponse(Call<Post> call, Response<Post> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Post> call, Throwable t) {
+
+                        }
+                    });
+                    Toast.makeText(getApplicationContext(),"Post is deleted!",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this,PostsActivity.class);
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(getApplicationContext(),"ne mozes brisati tudju objavu",Toast.LENGTH_SHORT).show();
+                }
         }
 
         return super.onOptionsItemSelected(item);
@@ -274,42 +321,42 @@ public class ReadPostActivity extends AppCompatActivity {
         super.onRestart();
     }
 
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        RadioButton rb = (RadioButton) findViewById(view.getId());
-        boolean checked = ((RadioButton) view).isChecked();
+//    public void onRadioButtonClicked(View view) {
+//        // Is the button now checked?
+//        RadioButton rb = (RadioButton) findViewById(view.getId());
+//        boolean checked = ((RadioButton) view).isChecked();
+//
+//
+//        if (checked)
+//
+//        // Check which radio button was clicked
+//        switch(view.getId()) {
+//            case R.id.btn_like:
+//                if (checked)
+//                    Toast.makeText(this, "nesto se desilo",Toast.LENGTH_SHORT).show();
+//                // Pirates are the best
+//                break;
+//            case R.id.btn_dislike:
+//                if (checked)
+//                    Toast.makeText(this, "nestoooooooooo",Toast.LENGTH_SHORT).show();
+//                // Ninjas rule
+//                break;
+//        }
+//    }
 
-
-        if (checked)
-
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.btn_like:
-                if (checked)
-                    Toast.makeText(this, "nesto se desilo",Toast.LENGTH_SHORT).show();
-                // Pirates are the best
-                break;
-            case R.id.btn_dislike:
-                if (checked)
-                    Toast.makeText(this, "nestoooooooooo",Toast.LENGTH_SHORT).show();
-                // Ninjas rule
-                break;
-        }
-    }
-
-    public void onRadioGroupClicked(View view){
-        RadioGroup radioGroup = findViewById(R.id.comments_radio_group);
-        RadioButton rb1 = findViewById(R.id.btn_like);
-        RadioButton rb2 = findViewById(R.id.btn_dislike);
-
-        Boolean checked1 = rb1.isChecked();
-
-        if (checked1 != null){
-            if (rb1.isChecked() && rb1.isPressed()){
-                Toast.makeText(this, "opet je kliknut",Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+//    public void onRadioGroupClicked(View view){
+//        RadioGroup radioGroup = findViewById(R.id.comments_radio_group);
+//        RadioButton rb1 = findViewById(R.id.btn_like);
+//        RadioButton rb2 = findViewById(R.id.btn_dislike);
+//
+//        Boolean checked1 = rb1.isChecked();
+//
+//        if (checked1 != null){
+//            if (rb1.isChecked() && rb1.isPressed()){
+//                Toast.makeText(this, "opet je kliknut",Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
 
 

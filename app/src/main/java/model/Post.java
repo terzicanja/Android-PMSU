@@ -4,21 +4,52 @@ package model;
 import android.graphics.Bitmap;
 import android.location.Location;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.List;
 
 public class Post {
 
+    @SerializedName("id")
+    @Expose
     private int id;
+
+    @SerializedName("title")
+    @Expose
     private String title;
+
+    @SerializedName("description")
+    @Expose
     private String description;
+
+    @SerializedName("photo")
+    @Expose
     private Bitmap photo;
+
+    @SerializedName("user")
+    @Expose
     private User author;
+
+    @SerializedName("date")
+    @Expose
     private Date date;
+
+//    @SerializedName("id")
+//    @Expose
     private Location location;
+
     private List<Tag> tags;
+
     private List<Comment> comments;
+
+    @SerializedName("likes")
+    @Expose
     private int likes;
+
+    @SerializedName("dislikes")
+    @Expose
     private int dislikes;
 
     public Post(){

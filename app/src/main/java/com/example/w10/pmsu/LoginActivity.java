@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (u.getUsername().equals(username) && u.getPassword().equals(password)){
                     Intent intent = new Intent(LoginActivity.this, PostsActivity.class);
-                    editor.putString("User", u.getName());
+                    editor.putString("User", u.getUsername());
                     editor.commit();
                     startActivity(intent);
                     finish();

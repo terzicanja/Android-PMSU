@@ -31,29 +31,13 @@
                 android:layout_marginRight="10dp"
                 android:text="sadrzaj komentara" />
 
-            <ImageButton
-                android:id="@+id/like_comment_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/korisnicko"
-                android:layout_toRightOf="@id/komentar_sadrzaj"
-                android:src="@drawable/ic_arrow_upward" />
-
-            <TextView
-                android:id="@+id/comment_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/korisnicko"
-                android:layout_toRightOf="@id/like_comment_btn"
-                android:text="1234" />
-
-            <ImageButton
-                android:id="@+id/dislike_comment_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/korisnicko"
-                android:layout_toRightOf="@id/comment_rating"
-                android:src="@drawable/ic_arrow_downward" />
+            <!--<TextView-->
+                <!--android:id="@+id/comment_rating"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/korisnicko"-->
+                <!--android:layout_toRightOf="@id/like_comment_btn"-->
+                <!--android:text="1234" />-->
 
             <TextView
                 android:id="@+id/komentar_datum"
@@ -86,6 +70,12 @@
                         android:background="@drawable/custom_radio_btn_up"
                         android:button="@null" />
 
+                <TextView
+                    android:id="@+id/comment_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1234" />
+
                     <RadioButton
                         android:id="@+id/btn_dislike"
                         android:layout_width="wrap_content"
@@ -102,14 +92,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="delete"
-                android:layout_below="@id/comments_radio_group"/>
-
-            <Button
-                android:id="@+id/edit_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="edit"
-                android:layout_toRightOf="@id/delete_comment"
                 android:layout_below="@id/comments_radio_group"/>
 
         </RelativeLayout>
