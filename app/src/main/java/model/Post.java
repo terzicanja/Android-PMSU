@@ -38,7 +38,15 @@ public class Post {
 
 //    @SerializedName("id")
 //    @Expose
-    private Location location;
+//    private Location location;
+
+    @SerializedName("longitude")
+    @Expose
+    private double longitude;
+
+    @SerializedName("latitude")
+    @Expose
+    private double latitude;
 
     private List<Tag> tags;
 
@@ -56,14 +64,16 @@ public class Post {
 
     }
 
-    public Post(int id, String title, String description, Bitmap photo, User author, Date date, Location location, List<Tag> tags, List<Comment> comments, int likes, int dislikes) {
+    public Post(int id, String title, String description, Bitmap photo, User author, Date date, double longitude, double latitude, List<Tag> tags, List<Comment> comments, int likes, int dislikes) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.photo = photo;
         this.author = author;
         this.date = date;
-        this.location = location;
+        this.longitude = longitude;
+        this.latitude = latitude;
+//        this.location = location;
         this.tags = tags;
         this.comments = comments;
         this.likes = likes;
@@ -118,13 +128,29 @@ public class Post {
         this.date = date;
     }
 
-    public Location getLocation() {
-        return location;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+//    public Location getLocation() {
+//        return location;
+//    }
+//
+//    public void setLocation(Location location) {
+//        this.location = location;
+//    }
 
     public List<Tag> getTags() {
         return tags;

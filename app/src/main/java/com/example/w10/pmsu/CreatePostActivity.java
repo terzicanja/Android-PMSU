@@ -1,11 +1,22 @@
 package com.example.w10.pmsu;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -43,11 +54,14 @@ import com.example.w10.pmsu.service.TagService;
 import com.example.w10.pmsu.service.UserService;
 import com.example.w10.pmsu.tools.FragmentTransition;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
-public class CreatePostActivity extends AppCompatActivity {
+public class CreatePostActivity extends AppCompatActivity implements LocationListener {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -65,6 +79,12 @@ public class CreatePostActivity extends AppCompatActivity {
     private TagService tagService;
 
     public static User user;
+    private double longitude;
+    private double latitude;
+    private LocationManager locationManager;
+    private Location location;
+    private String provider;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     private String synctime;
     private boolean allowSync;
@@ -176,6 +196,8 @@ public class CreatePostActivity extends AppCompatActivity {
         }
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
     private void consultPreferences(){
@@ -214,6 +236,8 @@ public class CreatePostActivity extends AppCompatActivity {
         post.setDislikes(0);
         Date date = Calendar.getInstance().getTime();
         post.setDate(date);
+        post.setLongitude(longitude);
+        post.setLatitude(latitude);
 
 //        Toast.makeText(getApplicationContext(), "post created",Toast.LENGTH_SHORT).show();
 
@@ -243,6 +267,18 @@ public class CreatePostActivity extends AppCompatActivity {
         super.onResume();
 
 //        showLocatonDialog();
+
+        getProvider();
+
+        if (location == null) {
+            Toast.makeText(getApplicationContext(), "Location not found", Toast.LENGTH_SHORT).show();
+        }
+        if (location != null) {
+            Toast.makeText(getApplicationContext(), "Longitude: " +location.getLongitude(), Toast.LENGTH_SHORT).show();
+            System.out.println("LONGITUDEEE: "+location.getLongitude() + "LATITUDEEEE:" + location.getLatitude());
+            getAddress(location.getLatitude(),location.getLongitude());
+            onLocationChanged(location);
+        }
 
         consultPreferences();
     }
@@ -383,4 +419,116 @@ public class CreatePostActivity extends AppCompatActivity {
 //        Intent i = new Intent(this, PostsActivity.class);
 //        startActivity(i);
 //    }
+
+//    @Override
+//    public void onLocationChanged(Location location) {
+//        longitude = location.getLongitude();
+//        latitude = location.getLatitude();
+//    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        longitude = location.getLongitude();
+        latitude = location.getLatitude();
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+    public void getProvider(){
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, true);
+
+        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean wifi = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if(!gps && wifi){
+            showLocatonDialog();
+        } else {
+            if(checkLocationPermission()){
+                if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+
+                    locationManager.requestLocationUpdates(provider,0,0,this);
+
+                }else if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                    locationManager.requestLocationUpdates(provider,0,0,this);
+                }
+            }
+        }
+
+        location = null;
+
+        if(checkLocationPermission()){
+            if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                location = locationManager.getLastKnownLocation(provider);
+            }else if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                location = locationManager.getLastKnownLocation(provider);
+            }
+        }
+
+
+
+    }
+
+
+    public boolean checkLocationPermission(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
+                new AlertDialog.Builder(this)
+                        .setTitle("Allow user location")
+                        .setMessage("To continue working we need your locations... Allow now?")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ActivityCompat.requestPermissions(CreatePostActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+            }else{
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public void getAddress(double latitude,double longitude){
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            String city = addresses.get(0).getLocality();
+            String country = addresses.get(0).getCountryName();
+//            location_text.setText(city + "," + country);
+
+            System.out.println(city);
+            System.out.println(country);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
+
+
+
 }
