@@ -2,6 +2,8 @@ package com.example.w10.pmsu.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.annotation.Nullable;
 import android.support.transition.Transition;
 import android.support.transition.TransitionInflater;
@@ -22,8 +24,10 @@ import com.example.w10.pmsu.service.ServiceUtils;
 import com.example.w10.pmsu.service.TagService;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import model.Post;
 import model.Tag;
@@ -42,6 +46,7 @@ public class ReadPostFragment extends Fragment {
     private PostService postService;
     private boolean liked;
     private boolean disliked;
+    private TextView location;
 
     private SharedPreferences sharedPreferences;
 
@@ -88,7 +93,7 @@ public class ReadPostFragment extends Fragment {
         }
         final Post post = new Gson().fromJson(jsonMyObject, Post.class);
 
-        TextView location = view.findViewById(R.id.location);
+        location = view.findViewById(R.id.location);
         TextView date = view.findViewById(R.id.date);
         TextView title = view.findViewById(R.id.title);
         TextView author = view.findViewById(R.id.author);
@@ -123,6 +128,8 @@ public class ReadPostFragment extends Fragment {
 
             }
         });
+
+        getAddress(post.getLatitude(), post.getLongitude());
 
         String rating = Integer.toString(post.getLikes() - post.getDislikes());
 
@@ -185,6 +192,50 @@ public class ReadPostFragment extends Fragment {
         });
 
 
+
+    }
+
+
+
+    public void getAddress(double latitude,double longitude){
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(getContext(), Locale.getDefault());
+
+        try {
+            if (latitude == 0 && longitude == 0){
+                latitude = 0.000000;
+                longitude = 0.000000;
+
+//                addresses = geocoder.getFromLocation(latitude, longitude, 1);
+//                String city = addresses.get(0).getLocality();
+//                String country = addresses.get(0).getCountryName();
+//                String street = addresses.get(0).getAddressLine(0);
+//            location_text.setText(city + "," + country);
+//            location_text.setText(street);
+                location.setText(latitude + " " + longitude);
+            }else{
+                addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                String city = addresses.get(0).getLocality();
+                String country = addresses.get(0).getCountryName();
+                String street = addresses.get(0).getAddressLine(0);
+//            location_text.setText(city + "," + country);
+//            location_text.setText(street);
+                location.setText(street);
+            }
+//            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+//            String city = addresses.get(0).getLocality();
+//            String country = addresses.get(0).getCountryName();
+//            String street = addresses.get(0).getAddressLine(0);
+////            location_text.setText(city + "," + country);
+////            location_text.setText(street);
+//            location.setText(street);
+//
+//            System.out.println(city);
+//            System.out.println(country);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

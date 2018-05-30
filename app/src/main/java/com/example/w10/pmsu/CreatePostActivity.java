@@ -73,6 +73,7 @@ public class CreatePostActivity extends AppCompatActivity implements LocationLis
 
     private EditText title_text;
     private EditText write_post;
+    private EditText location_text;
 
     private PostService postService;
     private UserService userService;
@@ -164,6 +165,7 @@ public class CreatePostActivity extends AppCompatActivity implements LocationLis
 
         title_text = findViewById(R.id.title_text);
         write_post = findViewById(R.id.write_post);
+        location_text = findViewById(R.id.location_text);
 
         postService = ServiceUtils.postService;
         userService = ServiceUtils.userService;
@@ -352,19 +354,19 @@ public class CreatePostActivity extends AppCompatActivity implements LocationLis
     private void selectItemFromDrawer(int position) {
         if(position == 0){
 //            FragmentTransition.to(MyFragment.newInstance(), this, false);
-//            Intent preference = new Intent(this, PostsActivity.class);
-//            startActivity(preference);
-        }else if(position == 1){
-//            Intent preference = new Intent(this, CreatePostActivity.class);
             Intent preference = new Intent(this, PostsActivity.class);
             startActivity(preference);
-        }else if(position == 2){
-//            Intent preference = new Intent(this, SettingsActivity.class);
+        }else if(position == 1){
             Intent preference = new Intent(this, CreatePostActivity.class);
+//            Intent preference = new Intent(this, PostsActivity.class);
+            startActivity(preference);
+        }else if(position == 2){
+            Intent preference = new Intent(this, SettingsActivity.class);
+//            Intent preference = new Intent(this, CreatePostActivity.class);
             startActivity(preference);
         }else if(position == 3){
-            Intent preference = new Intent(this, SettingsActivity.class);
-            startActivity(preference);
+//            Intent preference = new Intent(this, SettingsActivity.class);
+//            startActivity(preference);
         }else if(position == 4){
             //..
         }else{
@@ -492,7 +494,10 @@ public class CreatePostActivity extends AppCompatActivity implements LocationLis
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+
                                 ActivityCompat.requestPermissions(CreatePostActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},MY_PERMISSIONS_REQUEST_LOCATION);
+
+
                             }
                         })
                         .create()
@@ -515,7 +520,9 @@ public class CreatePostActivity extends AppCompatActivity implements LocationLis
             addresses = geocoder.getFromLocation(latitude, longitude, 1);
             String city = addresses.get(0).getLocality();
             String country = addresses.get(0).getCountryName();
+            String street = addresses.get(0).getAddressLine(0);
 //            location_text.setText(city + "," + country);
+            location_text.setText(street);
 
             System.out.println(city);
             System.out.println(country);

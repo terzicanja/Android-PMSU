@@ -130,8 +130,8 @@ public class ReadPostActivity extends AppCompatActivity {
 
 
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        ImageView im = (ImageView) findViewById(R.id.image);
-        im.setImageBitmap(b);
+//        ImageView im = (ImageView) findViewById(R.id.image);
+//        im.setImageBitmap(b);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }

@@ -2,6 +2,8 @@ package com.example.w10.pmsu.adapters;
 
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +15,17 @@ import android.widget.Toast;
 import com.example.w10.pmsu.PostsActivity;
 import com.example.w10.pmsu.R;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import model.Post;
 
 public class PostAdapter extends ArrayAdapter<Post> {
+
+
 
     public PostAdapter(Context context, List<Post> posts){
         super(context, 0, posts);
@@ -50,9 +56,14 @@ public class PostAdapter extends ArrayAdapter<Post> {
 //        image_view.setScaleType(ImageView.ScaleType.FIT_XY);
         description.setText(post.getDescription());
 
+
+
         return view;
 
 
     }
+
+
+
 
 }

@@ -24,6 +24,9 @@ public interface PostService {
     @GET(ServiceUtils.POSTS)
     Call<List<Post>> getPosts();
 
+    @GET("posts/sort/date/asc")
+    Call<List<Post>> getPostsByDateAsc();
+
     @POST("posts/create")
     Call<Post> savePost(@Body Post post);
 

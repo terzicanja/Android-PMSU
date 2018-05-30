@@ -121,7 +121,9 @@ public class CommentsFragment extends Fragment {
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 comments = response.body();
                 commentsAdapter = new CommentsAdapter(getContext(),comments);
+
                 listView.setAdapter(commentsAdapter);
+                consultPreferences();
             }
 
             @Override
@@ -309,7 +311,7 @@ public class CommentsFragment extends Fragment {
                 return com.getDate().compareTo(t1.getDate());
             }
         });
-//        commentsAdapter.notifyDataSetChanged();
+        commentsAdapter.notifyDataSetChanged();
     }
 
     private void commentsByDateOld(){
@@ -319,7 +321,7 @@ public class CommentsFragment extends Fragment {
                 return t1.getDate().compareTo(com.getDate());
             }
         });
-//        commentsAdapter.notifyDataSetChanged();
+        commentsAdapter.notifyDataSetChanged();
     }
 
     public void commentsByRating(){
@@ -329,7 +331,7 @@ public class CommentsFragment extends Fragment {
                 return Integer.valueOf(t1.getLikes()).compareTo(com.getLikes());
             }
         });
-//        commentsAdapter.notifyDataSetChanged();
+        commentsAdapter.notifyDataSetChanged();
     }
 
 //    public void onRadioButtonClicked(View view) {

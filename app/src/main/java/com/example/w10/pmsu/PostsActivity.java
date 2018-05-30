@@ -61,6 +61,7 @@ public class PostsActivity extends AppCompatActivity {
     private Post post1 = new Post();
     private Post post3 = new Post();
     private PostAdapter postAdapter;
+    private ListView listView;
 
     private String synctime;
     private boolean allowSync;
@@ -103,9 +104,9 @@ public class PostsActivity extends AppCompatActivity {
             actionBar.setHomeButtonEnabled(true);
         }
 
-        if (savedInstanceState == null) {
-            selectItemFromDrawer(0);
-        }
+//        if (savedInstanceState == null) {
+//            selectItemFromDrawer(0);
+//        }
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
@@ -149,7 +150,7 @@ public class PostsActivity extends AppCompatActivity {
 //        posts.add(post3);
 
         postAdapter = new PostAdapter(this, posts);
-        final ListView listView = findViewById(R.id.post_list);
+        listView = findViewById(R.id.post_list);
         postService = ServiceUtils.postService;
 
         Call call = postService.getPosts();
@@ -160,6 +161,7 @@ public class PostsActivity extends AppCompatActivity {
                 posts = response.body();
                 postAdapter = new PostAdapter(getApplicationContext(), posts);
                 listView.setAdapter(postAdapter);
+                consultPreferences();
 
             }
 
@@ -209,18 +211,19 @@ public class PostsActivity extends AppCompatActivity {
 
     private void consultPreferences(){
         String sortNews = sharedPreferences.getString("pref_sortNews", "");
+        Toast.makeText(this, sortNews,Toast.LENGTH_SHORT).show();
 
-//        if (sortNews.equals("oldest")){
-//            newsByDate();
-//        }
-//
-//        if (sortNews.equals("newest")){
-//            newsByDateOld();
-//        }
-//
-//        if (sortNews.equals("rating")){
-//            newsByRating();
-//        }
+        if (sortNews.equals("oldest")){
+            newsByDate();
+        }
+
+        if (sortNews.equals("newest")){
+            newsByDateOld();
+        }
+
+        if (sortNews.equals("rating")){
+            newsByRating();
+        }
 
 
         synctime = sharedPreferences.getString(getString(R.string.pref_sync_list), "1");//1min
@@ -237,12 +240,32 @@ public class PostsActivity extends AppCompatActivity {
     }
 
     public void newsByDate(){
+//        Call call = postService.getPosts();
+//
+//        call.enqueue(new Callback<List<Post>>() {
+//            @Override
+//            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+//                posts = response.body();
+//                postAdapter = new PostAdapter(getApplicationContext(), posts);
+//                listView.setAdapter(postAdapter);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call call, Throwable t) {
+//                t.printStackTrace();
+//
+//            }
+//        });
+
+
         Collections.sort(posts, new Comparator<Post>() {
             @Override
             public int compare(Post post, Post t1) {
                 return post.getDate().compareTo(t1.getDate());
             }
         });
+        postAdapter.notifyDataSetChanged();
     }
 
     public void newsByDateOld(){
@@ -252,6 +275,7 @@ public class PostsActivity extends AppCompatActivity {
                 return t1.getDate().compareTo(post.getDate());
             }
         });
+        postAdapter.notifyDataSetChanged();
     }
 
     public void newsByRating(){
@@ -261,6 +285,7 @@ public class PostsActivity extends AppCompatActivity {
                 return Integer.valueOf(t1.getLikes()).compareTo(post.getLikes());
             }
         });
+        postAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -277,9 +302,10 @@ public class PostsActivity extends AppCompatActivity {
 //
 //        Toast.makeText(this, syncConnPref,Toast.LENGTH_SHORT).show();
 
+        consultPreferences();
         postAdapter.notifyDataSetChanged();
 
-        consultPreferences();
+
     }
 
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
@@ -322,19 +348,19 @@ public class PostsActivity extends AppCompatActivity {
     private void selectItemFromDrawer(int position) {
         if(position == 0){
 //            FragmentTransition.to(MyFragment.newInstance(), this, false);
-//            Intent preference = new Intent(this, PostsActivity.class);
-//            startActivity(preference);
-        }else if(position == 1){
-//            Intent preference = new Intent(this, CreatePostActivity.class);
             Intent preference = new Intent(this, PostsActivity.class);
             startActivity(preference);
-        }else if(position == 2){
-//            Intent preference = new Intent(this, SettingsActivity.class);
+        }else if(position == 1){
             Intent preference = new Intent(this, CreatePostActivity.class);
+//            Intent preference = new Intent(this, PostsActivity.class);
+            startActivity(preference);
+        }else if(position == 2){
+            Intent preference = new Intent(this, SettingsActivity.class);
+//            Intent preference = new Intent(this, CreatePostActivity.class);
             startActivity(preference);
         }else if(position == 3){
-            Intent preference = new Intent(this, SettingsActivity.class);
-            startActivity(preference);
+//            Intent preference = new Intent(this, SettingsActivity.class);
+//            startActivity(preference);
         }else if(position == 4){
             //..
         }else{
